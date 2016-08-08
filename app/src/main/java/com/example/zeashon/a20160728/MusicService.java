@@ -18,7 +18,7 @@ public class MusicService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         //TODO
-       return null;
+        return null;
     }
 
     @Override
@@ -37,12 +37,12 @@ public class MusicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e(TAG,"running");
+        Log.e(TAG, "running");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.e(TAG,"onStartCommand running");
+        Log.e(TAG, "onStartCommand running");
         String path = intent.getStringExtra("path");
         playMusic(path);
         return super.onStartCommand(intent, flags, startId);
@@ -50,13 +50,14 @@ public class MusicService extends Service {
 
     /*play music*/
 
-    private void playMusic(String path){
-        if(mMediaPlayer == null){
+    private void playMusic(String path) {
+        if (mMediaPlayer == null) {
             mMediaPlayer = new MediaPlayer();
         }
         mMediaPlayer.stop();//stop play
         mMediaPlayer.reset();// reset
-        try{
+        final String mpath = path;
+        try {
             mMediaPlayer.setDataSource(path);//set music source
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 //异步启动成功  回调接口
@@ -64,42 +65,43 @@ public class MusicService extends Service {
                 public void onPrepared(MediaPlayer mp) {
                     //MediaPlayer 装载成功
                  /*   发送当前音乐时间长度给UI*/
-                    if(!isTaskPlay){
+                    if (!isTaskPlay) {
                         isTaskPlay = true;
                         musicTask.start();
                     }
                     mMediaPlayer.start();//paly
+                    Log.e(TAG, "music start - path: " + mpath);
                 }
             });
             mMediaPlayer.prepareAsync();//异步启动
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /*停止并释放MediaPlayer*/
-    private void releaseMediaPlay(){
-        if (mMediaPlayer != null){
+    private void releaseMediaPlay() {
+        if (mMediaPlayer != null) {
             mMediaPlayer.stop();
             mMediaPlayer.release();
         }
         mMediaPlayer = null;
-        if(musicTask != null){
+        if (musicTask != null) {
             musicTask.interrupt();
         }
         isTaskPlay = false;
     }
 
     private boolean isTaskPlay;
-    private Thread musicTask = new Thread(){
+    private Thread musicTask = new Thread() {
         //进度查询线程 1S 查询一次
 
         @Override
         public void run() {
-            while(!isInterrupted()){
-                try{
+            while (!isInterrupted()) {
+                try {
                     Thread.sleep(1000);
-                }catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                     break;
                 }

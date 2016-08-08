@@ -8,24 +8,41 @@ public class MusicInfo {
     private String Player;//歌手
     private String Path; //音乐文件绝对路径
 
-//    public MusicInfo(String MusicName, String Player)
+    //    public MusicInfo(String MusicName, String Player)
 //    {
 //        super();
 //        this.MusicName = MusicName;
 //        this.Player = Player;
 //    }
-    public String getMusicName(){
+    public MusicInfo(String path) {
+        this.setPath(path);
+    }
+
+    public MusicInfo() {
+        super();
+    }
+
+    public String getMusicName() {
         return MusicName;
     }
-    public String getPlayer(){
+
+    public String getPlayer() {
         return Player;
     }
-    public String getPath(){
+
+    public String getPath() {
         return Path;
     }
-    public void setMusicName(String MusicName){
+
+    public void setMusicName(String MusicName) {
         this.MusicName = MusicName;
     }
-    public void setPlayer(String Player){ this.Player = Player;}
-    public void setPath(String Path){ this.Path = Path;}
+
+    public void setPlayer(String Player) {
+        this.Player = Player;
+    }
+
+    public void setPath(String Path) {
+        this.Path = Path;
+    }
 }

@@ -29,8 +29,8 @@ public class MediaSearchFile {
         do {
             MusicInfo mMusic = new MusicInfo();
             mMusic.setPath(rst.getString(rst.getColumnIndex(MediaStore.Audio.Media.DATA)));//歌曲路径
-            String name = rst.getString(rst.getColumnIndex(MediaStore.Audio.Media.ARTIST));//歌曲
-            String author = rst.getString(rst.getColumnIndex(MediaStore.Audio.Media.ARTIST));//歌手
+            String name = rst.getString(rst.getColumnIndex(MediaStore.Audio.Media.TITLE));//歌曲名
+            String author = rst.getString(rst.getColumnIndex(MediaStore.Audio.Media.ARTIST));//歌手名
             try {
                 System.out.println("name byte is :" + new String(name.getBytes("utf-8"), "utf-8"));
             } catch (UnsupportedEncodingException e) {
@@ -51,6 +51,5 @@ public class MediaSearchFile {
         }
         while (rst.moveToNext());
         return musicList;
-        
     }
 }
