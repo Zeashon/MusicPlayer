@@ -62,7 +62,7 @@ public class MusicAdapter extends BaseAdapter {
         /*对子项布局中的控件填充数据*/
         File musicInfo = list.get(position);
         hold.name.setText(musicInfo.getName());
-        hold.player.setText(musicInfo.getPlayer());
+        hold.player.setText(musicInfo.getAbsolutePath());
         Log.e(TAG,"set text");
         return convertView;
     }

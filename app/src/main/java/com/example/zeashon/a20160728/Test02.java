@@ -74,11 +74,21 @@ public class Test02 extends AppCompatActivity {
                 File file = (File) parent.getAdapter().getItem(position);
                 Intent intent = new Intent(getApplicationContext(),MusicService.class);
                 intent.putExtra("path",file.getAbsolutePath());
+                Log.e(TAG,"path:"+file.getAbsolutePath());
                 startService(intent);
             }
         });
 
         mPlay = (Button) findViewById(R.id.musicplay);
+        mPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*stop music play*/
+                Intent intent = new Intent(getApplicationContext(),MusicService.class);
+                stopService(intent);
+                Log.e(TAG,"music stop");
+            }
+        });
     }//end of onCreate()
 
     private List<File> scan() {

@@ -37,10 +37,14 @@ public class MusicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.e(TAG,"running");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e(TAG,"onStartCommand running");
+        String path = intent.getStringExtra("path");
+        playMusic(path);
         return super.onStartCommand(intent, flags, startId);
     }
 
