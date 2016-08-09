@@ -13,6 +13,7 @@
 
 
         <ImageView
+            android:id="@+id/music_disk"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:scaleType="centerInside"
@@ -65,6 +66,7 @@
         android:orientation="vertical">
 
         <ProgressBar
+            android:id="@+id/music_pg"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="20dp"

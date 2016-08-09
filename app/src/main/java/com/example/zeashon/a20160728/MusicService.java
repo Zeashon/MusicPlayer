@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 /**
  * Created by Zeashon on 2016/8/2.
@@ -13,7 +14,7 @@ import android.util.Log;
 public class MusicService extends Service {
     private final String TAG = "MusicService";
     private MediaPlayer mMediaPlayer;
-
+    private String MY_ACTION = "MUSIC_PG_UI";
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -90,6 +91,10 @@ public class MusicService extends Service {
             musicTask.interrupt();
         }
         isTaskPlay = false;
+        Intent intent = new Intent();
+        intent.setAction(MY_ACTION);
+        intent.putExtra("msg", 0);
+        sendBroadcast(intent);
     }
 
     private boolean isTaskPlay;
@@ -107,6 +112,12 @@ public class MusicService extends Service {
                 }
                 int progress = mMediaPlayer.getCurrentPosition();//获取当前播放进度
                 //通知UI更新
+                int time = mMediaPlayer.getDuration();
+                Intent intent = new Intent();
+                intent.setAction(MY_ACTION);
+                intent.putExtra("msg", (1.0 * progress) / (1.0 * time));
+                Log.e(TAG, (1.0 * progress) / (1.0 * time) + "");
+                sendBroadcast(intent);
             }
         }
     };

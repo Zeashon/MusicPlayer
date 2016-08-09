@@ -7,6 +7,7 @@ public class MusicInfo {
     private String MusicName;//歌名
     private String Player;//歌手
     private String Path; //音乐文件绝对路径
+//    private double mTime;//音乐长度
 
     //    public MusicInfo(String MusicName, String Player)
 //    {
@@ -34,6 +35,10 @@ public class MusicInfo {
         return Path;
     }
 
+//    public double getTime() {
+//        return mTime;
+//    }
+
     public void setMusicName(String MusicName) {
         this.MusicName = MusicName;
     }
@@ -45,4 +50,8 @@ public class MusicInfo {
     public void setPath(String Path) {
         this.Path = Path;
     }
+
+//    public void setTime(double mTime) {
+//        this.mTime = mTime;
+//    }
 }

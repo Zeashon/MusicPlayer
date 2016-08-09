@@ -1,6 +1,9 @@
 package com.example.zeashon.a20160728;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +11,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.File;
@@ -24,6 +29,10 @@ public class Test02 extends AppCompatActivity {
     private String TAG = "Test02";
     MusicDataBasesHelper mMusicDataBasesHelper;
     Intent intent;
+    ImageView iv;
+    private ProgressBar pg;
+    private String MY_ACTION = "MUSIC_PG_UI";
+    private BroadcastReceiver myReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +43,17 @@ public class Test02 extends AppCompatActivity {
             String name = intent.getStringExtra("name");
             Toast.makeText(this, "hello " + name, Toast.LENGTH_LONG).show();
         }
+        pg = (ProgressBar) findViewById(R.id.music_pg);
         mListView = (ListView) findViewById(R.id.musiclist);
         mSearch = (Button) findViewById(R.id.search_btn);
-
+        iv = (ImageView) findViewById(R.id.music_disk);
         mMusicDataBasesHelper = new MusicDataBasesHelper(this, "recent", null, 1);
         mMusicDataBasesHelper.mdb = mMusicDataBasesHelper.getWritableDatabase();
+
+        myReceiver = new MusicUIBroadcast();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MY_ACTION);//与非自定义相同，但ACTION是自定义的，只要和系统的不冲突就行
+        registerReceiver(myReceiver, filter);
 
         mSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +109,7 @@ public class Test02 extends AppCompatActivity {
             public void onClick(View v) {
                 /*stop music play*/
                 Intent intent = new Intent(getApplicationContext(), MusicService.class);
+
                 stopService(intent);
                 Log.e(TAG, "music stop");
             }
@@ -115,6 +131,20 @@ public class Test02 extends AppCompatActivity {
         return mMusicDataBasesHelper.getRecentMusic();
     }
 
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(myReceiver);
+        super.onDestroy();
+    }
+
+    public class MusicUIBroadcast extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+            pg.setProgress((int) (intent.getDoubleExtra("msg", 0) * 1.0 * pg.getMax()));
+            Log.e(TAG, "pg progress:" + pg.getProgress() + " intent " + intent.getIntExtra("msg", 0) + "pg max:" + pg.getMax());
+        }
+    }
 }//end of Activity
 
 
