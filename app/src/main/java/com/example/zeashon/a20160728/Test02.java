@@ -4,9 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -33,16 +36,14 @@ public class Test02 extends AppCompatActivity {
     private ProgressBar pg;
     private String MY_ACTION = "MUSIC_PG_UI";
     private BroadcastReceiver myReceiver;
+    private Button refresh;
+    private View selected_item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test02);
-        intent = this.getIntent();
-        if (intent != null) {
-            String name = intent.getStringExtra("name");
-            Toast.makeText(this, "hello " + name, Toast.LENGTH_LONG).show();
-        }
+        refresh = (Button) findViewById(R.id.list_refresh);
         pg = (ProgressBar) findViewById(R.id.music_pg);
         mListView = (ListView) findViewById(R.id.musiclist);
         mSearch = (Button) findViewById(R.id.search_btn);
@@ -64,6 +65,15 @@ public class Test02 extends AppCompatActivity {
             }
         });
 
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                musicList = MediaSearchFile.getListofMusic(Test02.this);
+                mAdapter = new MusicAdapter(getApplicationContext(), musicList);
+                mListView.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged(); //刷新 UI
+            }
+        });
         /*设置数据源*/
 
 //        musicList = scan();//获取扫描到的 SD 卡中的歌曲列表
@@ -77,9 +87,10 @@ public class Test02 extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("train", "index:" + position);
+
+                Log.d(TAG, "index:" + position);
                 Log.d(TAG, parent.getClass().getSimpleName());
-                MusicInfo file = (MusicInfo) parent.getAdapter().getItem(position);
+                MusicInfo file = (MusicInfo) parent.getAdapter().getItem(position);//获取当前项目
                 //判断是否是 “最近播放” 分割符，并且抛弃掉路径为空的音乐播放
                 if (file.getPath() == null || "".equals(file.getPath())) {
                     return;
@@ -98,7 +109,7 @@ public class Test02 extends AppCompatActivity {
 //                musicList.add(music);
 //                musicList = MediaSearchFile.getListofMusic(Test02.this);
 //                musicList.addAll(getRecent());
-
+                mAdapter.setSelectedIndex(position);
                 mAdapter.notifyDataSetChanged(); //刷新 UI
             }
         });
@@ -109,7 +120,6 @@ public class Test02 extends AppCompatActivity {
             public void onClick(View v) {
                 /*stop music play*/
                 Intent intent = new Intent(getApplicationContext(), MusicService.class);
-
                 stopService(intent);
                 Log.e(TAG, "music stop");
             }

@@ -1,6 +1,7 @@
 package com.example.zeashon.a20160728;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.media.MediaRouter;
 import android.text.Layout;
 import android.util.Log;
@@ -21,11 +22,16 @@ public class MusicAdapter extends BaseAdapter {
     private Context context;
     private List<MusicInfo> list;
     private String TAG = "MusicAdapter";
+    private int selectedIndex;
 
     public MusicAdapter(Context context, List<MusicInfo> list) {
         super();
         this.context = context;
         this.list = list;
+    }
+
+    public void setSelectedIndex(int position) {
+        this.selectedIndex = position;
     }
 
     @Override
@@ -46,6 +52,7 @@ public class MusicAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final Hold hold;
+        final String color = "#F5F5DC";
         if (convertView == null) {//子项布局为空（当前内存中没有缓冲）
             Log.d("train", "convertView == null");
             convertView = LayoutInflater.from(context).inflate(R.layout.music_list_item, parent, false);
@@ -65,7 +72,11 @@ public class MusicAdapter extends BaseAdapter {
         hold.musicNo.setText(position + 1 + "");
         hold.name.setText(musicInfo.getMusicName());
         hold.player.setText(musicInfo.getPlayer());
-        Log.e(TAG, "set text");
+        if (selectedIndex == position) {
+            hold.musicNo.setBackgroundColor(Color.parseColor(color));
+        } else {
+            hold.musicNo.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }//也可以是图片资源
         return convertView;
     }
 

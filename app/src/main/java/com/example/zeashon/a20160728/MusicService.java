@@ -71,6 +71,7 @@ public class MusicService extends Service {
                         musicTask.start();
                     }
                     mMediaPlayer.start();//paly
+                    mMediaPlayer.setLooping(true);//设置循环播放
                     Log.e(TAG, "music start - path: " + mpath);
                 }
             });

@@ -2,36 +2,43 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.zeashon.a20160728.MainActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="55dp"
         android:orientation="horizontal">
 
 
         <ImageView
             android:id="@+id/music_disk"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:scaleType="centerInside"
-            android:src="@drawable/logo" />
+            android:src="@drawable/music" />
 
-        <EditText
+        <!--<EditText-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:hint="搜索曲目"-->
+        <!--android:inputType="text" />-->
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="60dp"-->
+        <!--android:text="MediaPlayer"-->
+        <!--android:textSize="15sp" />-->
+
+        <Button
+            android:id="@+id/list_refresh"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:hint="搜索曲目"
-            android:inputType="text" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:text="MediaPlayer"
-            android:textSize="15sp" />
+            android:text="刷新曲库" />
 
     </LinearLayout>
 
