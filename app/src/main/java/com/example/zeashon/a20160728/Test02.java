@@ -144,6 +144,8 @@ public class Test02 extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         unregisterReceiver(myReceiver);
+        Intent intent = new Intent(getApplicationContext(), MusicService.class);
+        stopService(intent);
         super.onDestroy();
     }
 
@@ -152,7 +154,6 @@ public class Test02 extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
             pg.setProgress((int) (intent.getDoubleExtra("msg", 0) * 1.0 * pg.getMax()));
-            Log.e(TAG, "pg progress:" + pg.getProgress() + " intent " + intent.getIntExtra("msg", 0) + "pg max:" + pg.getMax());
         }
     }
 }//end of Activity
