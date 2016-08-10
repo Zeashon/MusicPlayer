@@ -44,8 +44,15 @@ public class MusicService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e(TAG, "onStartCommand running");
-        String path = intent.getStringExtra("path");
-        playMusic(path);
+        String path =null ;
+        try{
+            path = intent.getStringExtra("path");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        if (path!=null) {
+            playMusic(path);
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
